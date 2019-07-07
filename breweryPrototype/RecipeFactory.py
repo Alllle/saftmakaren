@@ -29,7 +29,7 @@ class RecepieFactory:
         user = RecipeModels.User(userData['name'], userData['img'], recepies)
         #json file. go throught each recepie and retrive data, add to user
         #recepie list.
-        for recepie in userData['recepies']:
+        for recepie in userData['recipes']:
             title = recepie['title']
             description = recepie['description']
             og = recepie['og']
@@ -61,7 +61,7 @@ class RecepieFactory:
             boilTime = recepie['boilTime']
             efficiency = recepie['efficiency']
             batchSize = recepie['batchSize']
-            currentRecepie = RecipeModels.Recepie(title, description, og, fg, yeast, primInf, watChem, boilTime, efficiency, batchSize, mashG, other, hops, fer)
+            currentRecepie = RecipeModels.Recipe(title, description, og, fg, yeast, primInf, watChem, boilTime, efficiency, batchSize, mashG, other, hops, fer)
             for hopItem in recepie['hops']:
                 hopType = hopItem['hopType']
                 hopBoilTime = hopItem['boilTime']
@@ -76,15 +76,15 @@ class RecepieFactory:
                 ferLovibond = fermentable['lovibond']
                 fermentableObject = RecipeModels.Fermentable(ferType, ferKg, ferLovibond)
                 currentRecepie.addFerm(fermentableObject)
-            user.addRecepie(currentRecepie)
+            user.addRecipe(currentRecepie)
         
         return user
     #convert userObject (the Sser class object) to a dictionary, so that it can be written into the json file.
     @staticmethod
     def SaveUser(userObject):
         userData = userObject.__dict__
-        userData['recepies'] = [recepie.__dict__ for recepie in userData['recepies']]
-        for recepie in userData['recepies']:
+        userData['recipes'] = [recepie.__dict__ for recepie in userData['recipes']]
+        for recepie in userData['recipes']:
             recepie['fermentables'] = [fermentable.__dict__ for fermentable in recepie['fermentables']]
             recepie['yeast'] = recepie['yeast'].__dict__
             recepie['primeInfo'] = recepie['primeInfo'].__dict__
@@ -93,12 +93,12 @@ class RecepieFactory:
             recepie['mashGuide'] = recepie['mashGuide'].__dict__
             #TODO if we add other class, add here
         print(userData)
-        #writeJsonData(userData)
+        writeJsonData(userData)
 
 
 printjsonFile()
 user = RecepieFactory.createUser()
-print(user.recepies[0].hops[0].hopType)
+print(user.recipes[0].hops[0].hopType)
 RecepieFactory.SaveUser(user)
 
 
