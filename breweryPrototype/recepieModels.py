@@ -17,20 +17,13 @@ class User:
             self.recepies = recepies
 
 
-    def addRecepie(self, title, description, og, fg, fermentables,
-                   mashGuide, yeast, primeInfo, hops, other,
-                   waterChem, boilTime, efficiency, batchSize):
-        
-        recepie = Recepie(title, description, og, fg, fermentables,
-                   mashGuide, yeast, primeInfo, hops, other,
-                   waterChem, boilTime, efficiency, batchSize)
-        self.recepies.append(recepie)
+    def addRecepie(self, recepie1):
+        self.recepies.append(recepie1)
         
         
 class Recepie:
-    def __init__(self, title, description, og, fg, fermentables,
-                 yeast, primeInfo, hops, waterChem, boilTime,
-                 efficiency, batchSize, mashGuide = None, other = None):
+    def __init__(self, title, description, og, fg, yeast, primeInfo, waterChem, boilTime,
+                 efficiency, batchSize, mashGuide = None, other = None, hops = None, fermentables = None):
         self.title = title
         self.description = description
         self.og = og
@@ -44,7 +37,14 @@ class Recepie:
         self.boilTime = boilTime
         self.efficiency = efficiency
         self.batchSize = batchSize
-        
+        if hops == None:
+            self.hops = []
+        else:
+            self.hops = hops
+        if fermentables == None:
+            self.fermentables = []
+        else:
+            self.fermentables = fermentables
         if mashGuide == None:
             self.mashGuide = ''
         else:
@@ -72,6 +72,12 @@ class Recepie:
     def MashPh(self):
         #TODO return MashPh calculated
         pass
+    
+    def addHop(self, hop1):
+        self.hops.append(hop1)
+    
+    def addFerm(self, ferm1):
+        self.fermentables.append(ferm1)
             
 
 class Fermentable:

@@ -29,13 +29,6 @@ class RecepieFactory:
             og = recepie['og']
             fg = recepie['fg']
             fer = []
-            for fermentable in recepie['fermentables']:
-                ferType = fermentable['type']
-                ferKg = fermentable['kg']
-                ferLovibond = fermentable['lovibond']
-                fermentableObject = recepieModels.Fermentable(ferType, ferKg, ferLovibond)
-                fer.append(fermentableObject)
-
             startThick = recepie['mashGuide']['startThick']
             mashTemp = recepie['mashGuide']['temp']
             mashTime = recepie['mashGuide']['time']
@@ -48,14 +41,6 @@ class RecepieFactory:
             primCo2Level = recepie['primeInfo']['co2Level']
             primInf = recepieModels.PrimingInfo(primMethod, primAmount, primTemp, primCo2Level)
             hops = []
-            for hopItem in recepie['hops']:
-                hopType = hopItem['type']
-                hopBoilTime = hopItem['boilTime']
-                hopAmount = hopItem['amount']
-                hopWholeLeaf = hopItem['leafWhole']
-                hopTemp = hopItem['temp']
-                hopObject = recepieModels.Hop(hopType, hopBoilTime, hopAmount, hopWholeLeaf, hopTemp)
-                hops.append(hopObject)
             #other = Other()
             other = ''
             sourceWater = recepie['waterChem']['sourceWater']
@@ -70,9 +55,22 @@ class RecepieFactory:
             boilTime = recepie['boilTime']
             efficiency = recepie['efficiency']
             batchSize = recepie['batchSize']
-            user.addRecepie(title, description, og, fg, fer,
-                   mashG, yeast, primInf, hops, other,
-                   watChem, boilTime, efficiency, batchSize)
+            currentRecepie = recepieModels.Recepie(title, description, og, fg, mashG, yeast, primInf, other, watChem, boilTime, efficiency, batchSize, hops, fer)
+            for hopItem in recepie['hops']:
+                hopType = hopItem['type']
+                hopBoilTime = hopItem['boilTime']
+                hopAmount = hopItem['amount']
+                hopWholeLeaf = hopItem['leafWhole']
+                hopTemp = hopItem['temp']
+                hopObject = recepieModels.Hop(hopType, hopBoilTime, hopAmount, hopWholeLeaf, hopTemp)
+                currentRecepie.addHop(hopObject)
+            for fermentable in recepie['fermentables']:
+                ferType = fermentable['type']
+                ferKg = fermentable['kg']
+                ferLovibond = fermentable['lovibond']
+                fermentableObject = recepieModels.Fermentable(ferType, ferKg, ferLovibond)
+                currentRecepie.addFerm(fermentableObject)
+            user.addRecepie(currentRecepie)
         
         return user
 
