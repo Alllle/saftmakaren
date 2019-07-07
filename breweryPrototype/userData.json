@@ -1,0 +1,4 @@
+{"name":"user", "img":"img", "recepies": [{"title": "Lager", "description":"description", "og":"og", "fg":"fg", "fermentables": [{"type": "default", "kg": "1.05", "lovibond": "3.5"}],
+ "yeast": {"pass":"dat shit"}, "primeInfo":{"method": "default", "amount": "5", "temp": "60", "co2Level": "något"}, "hops": [{"type": "fullGrainMyBoi", "boilTime": "40", "amount": "4",
+"leafWhole": "whole", "temp": "60"}], "other": {}, "waterChem": {"sourceWater": "default", "targetWater": "default", "ca2": "volym", "mg2": "volym", "na2": "volym", "cl": "volym", 
+"so42": "volym", "hco3": "volym"}, "boilTime": "80", "efficiency": "75", "batchSize": "10", "mashGuide": {"startThick": "50", "temp":"60", "time":"50", "amount": "10"}}]}
