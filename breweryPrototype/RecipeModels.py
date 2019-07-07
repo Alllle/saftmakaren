@@ -17,7 +17,7 @@ class User:
             self.recipes = recipes
 
 
-    def addrecipe(self, recipe):
+    def addRecipe(self, recipe):
         self.recipes.append(recipe)
         
         
