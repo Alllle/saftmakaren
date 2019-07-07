@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import RecipeModels as rm
+import Main
 
 class MainView(object):
     def setupUi(self, Dialog):
@@ -26,6 +26,8 @@ class MainView(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+        self.textBoxes = [self.textAdd]
+
         self.addRecipe.clicked.connect(self.addRecipeFunc)
 
     def retranslateUi(self, Dialog):
@@ -33,18 +35,20 @@ class MainView(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.addRecipe.setText(_translate("Dialog", "Add"))
 
-    def addRecipeFunc(self, recipe):
-        test = rm.Recepie(title = str(self.textAdd.text()))
+    def startApplication(self):
+        import sys
+        app = QtWidgets.QApplication(sys.argv)
+        Dialog = QtWidgets.QDialog()
+        ui = MainView()
+        ui.setupUi(Dialog)
+        Dialog.show()
+        sys.exit(app.exec_())
+    # Button functions are down here
+    def addRecipeFunc(self, user):
+        args = list()
+        for textBox in self.textBoxes:
+            args.append(textBox.text())
+        # AddRecipes returns the title for display at the sidebar
+        title = Main.addRecipe(args)
         self.textAdd.clear()
-        self.recipes.addItem(test.title)
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = MainView()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
-
-
+        self.recipes.addItem(title)

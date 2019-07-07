@@ -26,7 +26,7 @@ class RecepieFactory:
     def createUser():
         userData = loadData()
         recepies = []
-        user = recepieModels.User(userData['name'], userData['img'], recepies)
+        user = RecipeModels.User(userData['name'], userData['img'], recepies)
         #json file. go throught each recepie and retrive data, add to user
         #recepie list.
         for recepie in userData['recepies']:
@@ -39,13 +39,13 @@ class RecepieFactory:
             mashTemp = recepie['mashGuide']['temp']
             mashTime = recepie['mashGuide']['time']
             mashAmount = recepie['mashGuide']['amount'] 
-            mashG = recepieModels.MashGuideline(startThick, mashTemp, mashTime, mashAmount)
-            yeast = recepieModels.Yeast()
+            mashG = RecipeModels.MashGuideline(startThick, mashTemp, mashTime, mashAmount)
+            yeast = RecipeModels.Yeast()
             primMethod = recepie['primeInfo']['method']
             primAmount = recepie['primeInfo']['amount']
             primTemp = recepie['primeInfo']['temp']
             primCo2Level = recepie['primeInfo']['co2Level']
-            primInf = recepieModels.PrimingInfo(primMethod, primAmount, primTemp, primCo2Level)
+            primInf = RecipeModels.PrimingInfo(primMethod, primAmount, primTemp, primCo2Level)
             hops = []
             #other = Other()
             other = ''
@@ -57,24 +57,24 @@ class RecepieFactory:
             cl = recepie['waterChem']['cl']
             so42 = recepie['waterChem']['so42']
             hco3 = recepie['waterChem']['hco3']
-            watChem = recepieModels.WaterChemistry(sourceWater, targetWater, ca2, mg2, na2, cl, so42, hco3)
+            watChem = RecipeModels.WaterChemistry(sourceWater, targetWater, ca2, mg2, na2, cl, so42, hco3)
             boilTime = recepie['boilTime']
             efficiency = recepie['efficiency']
             batchSize = recepie['batchSize']
-            currentRecepie = recepieModels.Recepie(title, description, og, fg, yeast, primInf, watChem, boilTime, efficiency, batchSize, mashG, other, hops, fer)
+            currentRecepie = RecipeModels.Recepie(title, description, og, fg, yeast, primInf, watChem, boilTime, efficiency, batchSize, mashG, other, hops, fer)
             for hopItem in recepie['hops']:
                 hopType = hopItem['type']
                 hopBoilTime = hopItem['boilTime']
                 hopAmount = hopItem['amount']
                 hopWholeLeaf = hopItem['leafWhole']
                 hopTemp = hopItem['temp']
-                hopObject = recepieModels.Hop(hopType, hopBoilTime, hopAmount, hopWholeLeaf, hopTemp)
+                hopObject = RecipeModels.Hop(hopType, hopBoilTime, hopAmount, hopWholeLeaf, hopTemp)
                 currentRecepie.addHop(hopObject)
             for fermentable in recepie['fermentables']:
                 ferType = fermentable['type']
                 ferKg = fermentable['kg']
                 ferLovibond = fermentable['lovibond']
-                fermentableObject = recepieModels.Fermentable(ferType, ferKg, ferLovibond)
+                fermentableObject = RecipeModels.Fermentable(ferType, ferKg, ferLovibond)
                 currentRecepie.addFerm(fermentableObject)
             user.addRecepie(currentRecepie)
         
