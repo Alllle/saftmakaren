@@ -20,7 +20,7 @@ class RecepieFactory:
     def createUser():
         userData = loadData()
         recepies = []
-        user = recepieModels.User(userData['name'], recepies, userData['img'])
+        user = recepieModels.User(userData['name'], userData['img'], recepies)
         #json file. go throught each recepie and retrive data, add to user
         #recepie list.
         for recepie in userData['recepies']:
