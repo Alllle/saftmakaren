@@ -81,8 +81,8 @@ class Recepie:
             
 
 class Fermentable:
-    def __init__(self, Type, kg, lovibond):
-        self.Type = Type
+    def __init__(self, ferType, kg, lovibond):
+        self.ferType = ferType
         self.kg = kg
         self.lovibond = lovibond
 
@@ -94,8 +94,8 @@ class MashGuideline:
         self.amount = amount
 
 class Hop:
-    def __init__(self, Type, boilTime, amount, leafWhole, temp):
-        self.Type = Type
+    def __init__(self, hopType, boilTime, amount, leafWhole, temp):
+        self.hopType = hopType
         self.boilTime = boilTime
         self.amount = amount
         self.leafWhole = leafWhole
