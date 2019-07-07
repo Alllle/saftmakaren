@@ -1,8 +1,8 @@
 #!python3
-#Classes related to recepie.
+#Classes related to recipe.
 
 class User:
-    def __init__(self, name = None, img = None, recepies = None):
+    def __init__(self, name = None, img = None, recipes = None):
         if name == None:
             self.name = 'insert name'
         else:
@@ -11,17 +11,17 @@ class User:
             self.img = ''
         else:
             self.img = img
-        if recepies == None:
-            self.recepies = []
+        if recipes == None:
+            self.recipes = []
         else:
-            self.recepies = recepies
+            self.recipes = recipes
 
 
-    def addRecepie(self, recepie1):
-        self.recepies.append(recepie1)
+    def addrecipe(self, recipe):
+        self.recipes.append(recipe)
         
         
-class Recepie:
+class Recipe:
     def __init__(self, title, description = '', og = '', fg = '', yeast = '', primeInfo = '', waterChem = '', boilTime = '',
                  efficiency = '', batchSize = '', mashGuide = None, other = None, hops = None, fermentables = None):
         self.title = title
