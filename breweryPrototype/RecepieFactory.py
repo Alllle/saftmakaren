@@ -10,9 +10,15 @@ def loadData():
         data = {}
     return data
 
+def writeJsonData(data):
+    jsonFile = open('userData.json', 'w')
+    json.dump(data, jsonFile)
+    jsonFile.close()
+
 def printjsonFile():
     userData = loadData()
     pprint.pprint(userData)
+
 class RecepieFactory:
     #This method will return a user class with all the recepies saved into
     #memory, also name and img.
@@ -73,10 +79,19 @@ class RecepieFactory:
             user.addRecepie(currentRecepie)
         
         return user
+    #convert userObject (the Sser class object) to a dictionary, so that it can be written into the json file.
+    @staticmethod
+    def SaveUser(userObject):
+        
+        userData = userObject.__dict__
+        print(userData)
+        #writeJsonData(userData)
+
 
 printjsonFile()
 user = RecepieFactory.createUser()
-print(user)
+print(user.recepies[0].hops[0].Type)
+RecepieFactory.SaveUser(user)
 
 
 
