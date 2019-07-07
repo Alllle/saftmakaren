@@ -1,6 +1,6 @@
 #!python3
 #Creating recepies from memory
-import os, json, pprint, recepieModels
+import os, json, pprint, RecipeModels
 def loadData():
     jsonFile = open('userData.json', 'r')
     try:
@@ -61,7 +61,7 @@ class RecepieFactory:
             boilTime = recepie['boilTime']
             efficiency = recepie['efficiency']
             batchSize = recepie['batchSize']
-            currentRecepie = recepieModels.Recepie(title, description, og, fg, mashG, yeast, primInf, other, watChem, boilTime, efficiency, batchSize, hops, fer)
+            currentRecepie = recepieModels.Recepie(title, description, og, fg, yeast, primInf, watChem, boilTime, efficiency, batchSize, mashG, other, hops, fer)
             for hopItem in recepie['hops']:
                 hopType = hopItem['type']
                 hopBoilTime = hopItem['boilTime']
@@ -82,10 +82,18 @@ class RecepieFactory:
     #convert userObject (the Sser class object) to a dictionary, so that it can be written into the json file.
     @staticmethod
     def SaveUser(userObject):
-        
         userData = userObject.__dict__
-        print(userData)
-        #writeJsonData(userData)
+        userData['recepies'] = [recepie.__dict__ for recepie in userData['recepies']]
+        for recepie in userData['recepies']:
+            recepie['fermentables'] = [fermentable.__dict__ for fermentable in recepie['fermentables']]
+            recepie['yeast'] = recepie['yeast'].__dict__
+            recepie['primeInfo'] = recepie['primeInfo'].__dict__
+            recepie['hops'] = [hop.__dict__ for hop in recepie['hops']]
+            recepie['waterChem'] = recepie['waterChem'].__dict__
+            recepie['mashGuide'] = recepie['mashGuide'].__dict__
+            #TODO if we add other class, add here
+        #print(userData)
+        writeJsonData(userData)
 
 
 printjsonFile()
