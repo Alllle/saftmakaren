@@ -95,7 +95,7 @@ class Hop:
 
 class Other:
     def __init__(self):
-    #TODO decide if we want different "other" classes
+        #TODO decide if we want different "other" classes
         pass
 
 class PrimingInfo:

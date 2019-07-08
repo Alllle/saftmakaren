@@ -63,12 +63,13 @@ class RecepieFactory:
             batchSize = recepie['batchSize']
             currentRecepie = RecipeModels.Recipe(title, description, og, fg, yeast, primInf, watChem, boilTime, efficiency, batchSize, mashG, other, hops, fer)
             for hopItem in recepie['hops']:
+                hopAA = hopItem['AA']
                 hopType = hopItem['hopType']
                 hopBoilTime = hopItem['boilTime']
                 hopAmount = hopItem['amount']
                 hopWholeLeaf = hopItem['leafWhole']
                 hopTemp = hopItem['temp']
-                hopObject = RecipeModels.Hop(hopType, hopBoilTime, hopAmount, hopWholeLeaf, hopTemp)
+                hopObject = RecipeModels.Hop(hopType, hopBoilTime, hopAmount, hopWholeLeaf, hopTemp, hopAA)
                 currentRecepie.addHop(hopObject)
             for fermentable in recepie['fermentables']:
                 ferType = fermentable['ferType']
@@ -100,8 +101,12 @@ class RecepieFactory:
     def createEmptyRecipe():
         emptyRecipe = RecipeModels.Recipe()
         emptyRecipe.hops.append(RecipeModels.Hop())
-        #TODO
-        pass
+        emptyRecipe.fermentables.append(RecipeModels.Fermentable())
+        emptyRecipe.mashGuide = RecipeModels.MashGuideline()
+        emptyRecipe.primeInfo = RecipeModels.PrimingInfo()
+        emptyRecipe.waterChem = RecipeModels.WaterChemistry()
+        emptyRecipe.yeast = RecipeModels.Yeast()
+        return emptyRecipe
 
 
 
