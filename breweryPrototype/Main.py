@@ -1,7 +1,8 @@
 import MainView
 import RecipeModels as rm
+import RecipeFactory as rf
 
-currentUser = rm.User(name = 'kurt')
+currentUser = rm.User(rf.RecepieFactory.createUser())
 
 if __name__ == "__main__":
     mainView = MainView.MainView()

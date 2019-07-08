@@ -41,7 +41,7 @@ class RecepieFactory:
             mashAmount = recepie['mashGuide']['amount'] 
             mashG = RecipeModels.MashGuideline(startThick, mashTemp, mashTime, mashAmount)
             yeastType = recepie['yeast']['yeastType']
-            yeastAmount = recepie['yeast']['yeastAmount']
+            yeastAmount = recepie['yeast']['amount']
             customAttenuation = recepie['yeast']['customAttenuation']
             yeast = RecipeModels.Yeast(yeastType, yeastAmount, customAttenuation)
             primMethod = recepie['primeInfo']['method']
