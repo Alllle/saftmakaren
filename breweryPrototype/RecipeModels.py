@@ -51,8 +51,11 @@ class Recipe:
 
     @property 
     def IBU(self):
-        #TODO return IBU calculated
-        pass
+        aaUtilization = 0.23#tagetfråntablehttp://realbeer.com/hops/research.html
+        for hopObj in self.hops:
+            addedAA = ((hopObj.AA * hopObj.amount * 1000)/self.batchSize)
+            tempIBU += addedAA * aaUtilization
+        return tempIBU
 
     @property 
     def SRM(self):

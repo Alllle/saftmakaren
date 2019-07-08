@@ -40,7 +40,10 @@ class RecepieFactory:
             mashTime = recepie['mashGuide']['time']
             mashAmount = recepie['mashGuide']['amount'] 
             mashG = RecipeModels.MashGuideline(startThick, mashTemp, mashTime, mashAmount)
-            yeast = RecipeModels.Yeast()
+            yeastType = recepie['yeast']['yeastType']
+            yeastAmount = recepie['yeast']['yeastAmount']
+            customAttenuation = recepie['yeast']['customAttenuation']
+            yeast = RecipeModels.Yeast(yeastType, yeastAmount, customAttenuation)
             primMethod = recepie['primeInfo']['method']
             primAmount = recepie['primeInfo']['amount']
             primTemp = recepie['primeInfo']['temp']
@@ -110,7 +113,8 @@ class RecepieFactory:
 
 
 
-
+newRecipe = RecepieFactory.createEmptyRecipe()
+print(newRecipe.mashGuide.temp)
 printjsonFile()
 user = RecepieFactory.createUser()
 print(user.recipes[0].hops[0].hopType)
