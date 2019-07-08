@@ -22,21 +22,20 @@ class User:
         
         
 class Recipe:
-    def __init__(self, title, description = '', og = '', fg = '', yeast = '', primeInfo = '', waterChem = '', boilTime = '',
-                 efficiency = '', batchSize = '', mashGuide = None, other = None, hops = None, fermentables = None):
+    def __init__(self, title = '', description = '', og = 0, fg = 0, yeast = None, primeInfo = None, waterChem = None, boilTime = 0,
+                 efficiency = 0, batchSize = 0, mashGuide = None, other = None, hops = None, fermentables = None):
         self.title = title
         self.description = description
         self.og = og
         self.fg = fg
-        self.fermentables = fermentables
         self.yeast = yeast
         self.primeInfo = primeInfo
-        self.hops = hops
-        self.other = other
         self.waterChem = waterChem
         self.boilTime = boilTime
         self.efficiency = efficiency
         self.batchSize = batchSize
+        self.mashGuide = mashGuide
+        self.other = other
         if hops == None:
             self.hops = []
         else:
@@ -45,14 +44,6 @@ class Recipe:
             self.fermentables = []
         else:
             self.fermentables = fermentables
-        if mashGuide == None:
-            self.mashGuide = ''
-        else:
-            self.mashGuide = mashGuide
-        if other == None:
-            self.other = ''
-        else:
-            self.other = other
             
     @property 
     def ABV(self):
@@ -81,20 +72,21 @@ class Recipe:
             
 
 class Fermentable:
-    def __init__(self, ferType, kg, lovibond):
+    def __init__(self, ferType = '', kg = 0, lovibond = 0):
         self.ferType = ferType
         self.kg = kg
         self.lovibond = lovibond
 
 class MashGuideline:
-    def __init__(self, startThick, temp, time, amount):
+    def __init__(self, startThick = 0, temp = 0, time = 0, amount = 0):
         self.startThick = startThick
         self.temp = temp
         self.time = time
         self.amount = amount
 
 class Hop:
-    def __init__(self, hopType, boilTime, amount, leafWhole, temp):
+    def __init__(self, hopType = '', boilTime = 0, amount = 0, leafWhole = 'pellet', temp = 0, AA = 0):
+        self.AA = AA
         self.hopType = hopType
         self.boilTime = boilTime
         self.amount = amount
@@ -107,15 +99,15 @@ class Other:
         pass
 
 class PrimingInfo:
-    def __init__(self, method, amount, temp, co2Level):
+    def __init__(self, method = '', amount = 0, temp = 0, co2Level = 0):
         self.method = method
         self.amount = amount
         self.temp = temp
         self.co2Level = co2Level
-
+#ska source och targetWater ha en egen klass med värden i?
 class WaterChemistry:
-    def __init__(self, sourceWater, targetWater, ca2, mg2, na2, cl,
-                 so42, hco3):
+    def __init__(self, sourceWater = None, targetWater = None, ca2 = 0, mg2 = 0, na2 = 0, cl = 0,
+                 so42 = 0, hco3 = 0):
         self.sourceWater = sourceWater
         self.targetWater = targetWater
         self.ca2 = ca2
@@ -125,6 +117,7 @@ class WaterChemistry:
         self.so42 = so42
         self.hco3 = hco3
 class Yeast:
-    def __init__(self):
-        #TODO
-        pass
+    def __init__(self, yeastType = '', amount = 0, customAttenuation = 0):
+        self.yeastType = yeastType
+        self.amount = amount
+        self.customAttenuation = customAttenuation

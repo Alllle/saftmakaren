@@ -95,6 +95,16 @@ class RecepieFactory:
         print(userData)
         writeJsonData(userData)
 
+    #Create a "default" recipe.
+    @staticmethod
+    def createEmptyRecipe():
+        emptyRecipe = RecipeModels.Recipe()
+        emptyRecipe.hops.append(RecipeModels.Hop())
+        #TODO
+        pass
+
+
+
 
 printjsonFile()
 user = RecepieFactory.createUser()
