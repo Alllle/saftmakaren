@@ -134,12 +134,10 @@ class Hop:
         #TODO return originalWurt calculated
         pass
     
-
 class Other:
     def __init__(self):
         #TODO decide if we want different "other" classes
         pass
-
 class PrimingInfo:
     def __init__(self, method = '', amount = 0, temp = 0, co2Level = 0):
         self.method = method
@@ -148,16 +146,27 @@ class PrimingInfo:
         self.co2Level = co2Level
 #ska source och targetWater ha en egen klass med värden i?
 class WaterChemistry:
-    def __init__(self, sourceWater = None, targetWater = None, ca2 = 0, mg2 = 0, na2 = 0, cl = 0,
-                 so42 = 0, hco3 = 0):
+    def __init__(self, sourceWater = None, targetWater = None, minerals = None):
         self.sourceWater = sourceWater
         self.targetWater = targetWater
-        self.ca2 = ca2
-        self.mg2 = mg2
-        self.na2 = na2
-        self.cl = cl
-        self.so42 = so42
-        self.hco3 = hco3
+        self.minerals = minerals
+class Sourcewater:
+    def __init__(self, ca2 = 0, mg2 = 0, na2 = 0, cl = 0,
+                 so42 = 0, hco3 = 0):
+        self.chemistry = {'ca2': ca2, 'mg2': mg2, 'na2': na2, 'cl': cl, 'so42': so42, 'hco3': hco3}
+class Targetwater(Sourcewater):
+    pass
+class Minerals:
+    def __init__(self, calciumChloride = 0, chalk = 0, epsomSalt = 0, gypsum = 0, magnesiumChloride = 0,
+                bakingSoda = 0, citricAcid = 0, lacticAcid = 0):
+        self.calciumChloride = calciumChloride
+        self.chalk = chalk
+        self.epsomSalt = epsomSalt
+        self.gypsum = gypsum
+        self.magnesiumChloride = magnesiumChloride
+        self.bakingSoda = bakingSoda
+        self.citricAcid = citricAcid
+        self.lacticAcid = lacticAcid
 class Yeast:
     def __init__(self, yeastType = '', amount = 0, customAttenuation = 0):
         self.yeastType = yeastType

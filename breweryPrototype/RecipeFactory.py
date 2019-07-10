@@ -52,15 +52,30 @@ class RecepieFactory:
             hops = []
             #other = Other()
             other = ''
-            sourceWater = recepie['waterChem']['sourceWater']
-            targetWater = recepie['waterChem']['targetWater']
-            ca2 = recepie['waterChem']['ca2']
-            mg2 = recepie['waterChem']['mg2']
-            na2 = recepie['waterChem']['na2']
-            cl = recepie['waterChem']['cl']
-            so42 = recepie['waterChem']['so42']
-            hco3 = recepie['waterChem']['hco3']
-            watChem = RecipeModels.WaterChemistry(sourceWater, targetWater, ca2, mg2, na2, cl, so42, hco3)
+            sWca2 = recepie['waterChem']['sourceWater']['chemistry']['ca2']
+            sWmg2 = recepie['waterChem']['sourceWater']['chemistry']['mg2']
+            sWna2 = recepie['waterChem']['sourceWater']['chemistry']['na2']
+            sWcl = recepie['waterChem']['sourceWater']['chemistry']['cl']
+            sWso42 = recepie['waterChem']['sourceWater']['chemistry']['so42']
+            sWhco3 = recepie['waterChem']['sourceWater']['chemistry']['hco3']
+            sourceWater = RecipeModels.Sourcewater(sWca2, sWmg2, sWna2, sWcl, sWso42, sWhco3)
+            tWca2 = recepie['waterChem']['targetWater']['chemistry']['ca2']
+            tWmg2 = recepie['waterChem']['targetWater']['chemistry']['mg2']
+            tWna2 = recepie['waterChem']['targetWater']['chemistry']['na2']
+            tWcl = recepie['waterChem']['targetWater']['chemistry']['cl']
+            tWso42 = recepie['waterChem']['targetWater']['chemistry']['so42']
+            tWhco3 = recepie['waterChem']['targetWater']['chemistry']['hco3']
+            targetWater = RecipeModels.Targetwater(tWca2, tWmg2, tWna2, tWcl, tWso42, tWhco3)
+            calciumChloride = recepie['waterChem']['minerals']['calciumChloride']
+            chalk = recepie['waterChem']['minerals']['chalk']
+            epsomSalt = recepie['waterChem']['minerals']['epsomSalt']
+            gypsum = recepie['waterChem']['minerals']['gypsum']
+            magnesiumChloride = recepie['waterChem']['minerals']['magnesiumChloride']
+            bakingSoda = recepie['waterChem']['minerals']['bakingSoda']
+            citricAcid = recepie['waterChem']['minerals']['citricAcid']
+            lacticAcid = recepie['waterChem']['minerals']['lacticAcid']
+            minerals = RecipeModels.Minerals(calciumChloride, chalk, epsomSalt, gypsum, magnesiumChloride, bakingSoda, citricAcid, lacticAcid)
+            watChem = RecipeModels.WaterChemistry(sourceWater, targetWater, minerals)
             boilTime = recepie['boilTime']
             efficiency = recepie['efficiency']
             batchSize = recepie['batchSize']
@@ -94,9 +109,11 @@ class RecepieFactory:
             recepie['primeInfo'] = recepie['primeInfo'].__dict__
             recepie['hops'] = [hop.__dict__ for hop in recepie['hops']]
             recepie['waterChem'] = recepie['waterChem'].__dict__
+            recepie['waterChem']['sourceWater'] = recepie['waterChem']['sourceWater'].__dict__
+            recepie['waterChem']['targetWater'] = recepie['waterChem']['targetWater'].__dict__
+            recepie['waterChem']['minerals'] = recepie['waterChem']['minerals'].__dict__
             recepie['mashGuide'] = recepie['mashGuide'].__dict__
             #TODO if we add other class, add here
-        print(userData)
         writeJsonData(userData)
 
     #Create a "default" recipe.
@@ -107,7 +124,7 @@ class RecepieFactory:
         emptyRecipe.fermentables.append(RecipeModels.Fermentable())
         emptyRecipe.mashGuide = RecipeModels.MashGuideline()
         emptyRecipe.primeInfo = RecipeModels.PrimingInfo()
-        emptyRecipe.waterChem = RecipeModels.WaterChemistry()
+        emptyRecipe.waterChem = RecipeModels.WaterChemistry(RecipeModels.Sourcewater(), RecipeModels.Targetwater(), RecipeModels.Minerals())
         emptyRecipe.yeast = RecipeModels.Yeast()
         return emptyRecipe
 
