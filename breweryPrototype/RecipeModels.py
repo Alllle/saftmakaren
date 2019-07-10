@@ -48,10 +48,50 @@ class Recipe:
     @property 
     def ABV(self):
         return abs((self.fg - self.og) * 131.25)
+    #Tar in BoilTime och Original Gravity, returnar AA taget från ett table
+    #Input för OgUt får inte vara över 1.13 eller under 1.03
+    @staticmethod
+    def GetAAUtil():
+        AAValue = 0
+        boilTimeUt = 53
+        OgUt = 1.086
+        utilFile = open('UtilizationTable.txt', 'r')
+        utilContent = utilFile.readlines()
+        utilColumnsGravity = utilContent.pop(0).strip().split(' ')
+        utilTable, utilRowsBoilTime = [], []
+        rowIndex = 0, 0
+        for row in utilContent:
+            rowList = row.strip().split(' ')
+            utilRowsBoilTime.append(rowList.pop(0))
+            utilTable.append(rowList)
+        if boilTimeUt >= 120:
+            rowIndex = 25
+        else:
+            rowIndex = Recipe.getIndex(boilTimeUt, utilRowsBoilTime)
+        AAValue = utilTable[rowIndex][Recipe.getIndex(OgUt, utilColumnsGravity)]
+        return AAValue
+        
+
+    #get index for row or column of AA table
+    @staticmethod
+    def getIndex(boilOrGravity, columnOrRowList):
+        for i in range(1, len(columnOrRowList)):
+            if boilOrGravity == float(columnOrRowList[i-1]):
+                returnIndex = i-1
+                break
+            if boilOrGravity < float(columnOrRowList[i]) and boilOrGravity > float(columnOrRowList[i-1]):
+                if boilOrGravity <= (float(columnOrRowList[i]) - ((float(columnOrRowList[i]) - float(columnOrRowList[i-1])) / 2)):
+                    returnIndex = i - 1
+                else:
+                    returnIndex = i
+        return returnIndex
+
+
+
 
     @property 
     def IBU(self):
-        aaUtilization = 0.23#tagetfråntablehttp://realbeer.com/hops/research.html
+        aaUtilization = 0.23#tagetfråntablehttp://realbeer.com/hops/research.html4head
         for hopObj in self.hops:
             addedAA = ((hopObj.AA * hopObj.amount * 1000)/self.batchSize)
             tempIBU += addedAA * aaUtilization
@@ -124,3 +164,5 @@ class Yeast:
         self.yeastType = yeastType
         self.amount = amount
         self.customAttenuation = customAttenuation
+
+Recipe.GetAAUtil()
