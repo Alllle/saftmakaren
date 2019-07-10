@@ -48,15 +48,7 @@ class Recipe:
     @property 
     def ABV(self):
         return abs((self.fg - self.og) * 131.25)
-
     
-        
-
-    
-
-
-
-
     @property 
     def IBU(self):
         for hopObj in self.hops:
@@ -105,8 +97,7 @@ class Hop:
 
     #Tar in BoilTime och Original Gravity, returnar AA taget från ett table
     #Input för OgUt får inte vara över 1.13 eller under 1.03
-    @staticmethod
-    def GetAAUtil(boilTimeUt, OgUt):
+    def GetAAUtil(self):
         AAValue = 0
         utilFile = open('UtilizationTable.txt', 'r')
         utilContent = utilFile.readlines()
@@ -117,11 +108,11 @@ class Hop:
             rowList = row.strip().split(' ')
             utilRowsBoilTime.append(rowList.pop(0))
             utilTable.append(rowList)
-        if boilTimeUt >= 120:
+        if self.boilTime >= 120:
             rowIndex = 25
         else:
-            rowIndex = Hop.getIndex(boilTimeUt, utilRowsBoilTime)
-        AAValue = utilTable[rowIndex][Hop.getIndex(OgUt, utilColumnsGravity)]
+            rowIndex = Hop.getIndex(self.boilTime, utilRowsBoilTime)
+        AAValue = utilTable[rowIndex][Hop.getIndex(self.originalWurt, utilColumnsGravity)]
         return AAValue
 
     #get index for row or column of AA table
