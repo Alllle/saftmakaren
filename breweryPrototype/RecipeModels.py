@@ -19,21 +19,26 @@ class User:
 
     def addRecipe(self, recipe):
         self.recipes.append(recipe)
+
+    #TODO remove recipe based off of recipe ID, and reduce recipeCount and adjust recipe count for thos erecipes with higher nr
+    def removeRecipe(self, recipeID):
+        pass
         
         
 class Recipe:
+    recipeCount = 1
     def __init__(self, title = '', description = '', og = 0, fg = 0, yeast = None, primeInfo = None, waterChem = None, boilTime = 0,
                  efficiency = 0, batchSize = 0, mashGuide = None, other = None, hops = None, fermentables = None):
         self.title = title
         self.description = description
-        self.og = og
-        self.fg = fg
+        self.og = float(og)
+        self.fg = float(fg)
         self.yeast = yeast
         self.primeInfo = primeInfo
         self.waterChem = waterChem
-        self.boilTime = boilTime
-        self.efficiency = efficiency
-        self.batchSize = batchSize
+        self.boilTime = float(boilTime)
+        self.efficiency = float(efficiency)
+        self.batchSize = float(batchSize)
         self.mashGuide = mashGuide
         self.other = other
         if hops == None:
@@ -44,6 +49,8 @@ class Recipe:
             self.fermentables = []
         else:
             self.fermentables = fermentables
+        self.recipeID = Recipe.recipeCount
+        Recipe.recipeCount += 1
             
     @property 
     def ABV(self):
@@ -76,24 +83,24 @@ class Recipe:
 class Fermentable:
     def __init__(self, ferType = '', kg = 0, lovibond = 0):
         self.ferType = ferType
-        self.kg = kg
-        self.lovibond = lovibond
+        self.kg = float(kg)
+        self.lovibond = float(lovibond)
 
 class MashGuideline:
     def __init__(self, startThick = 0, temp = 0, time = 0, amount = 0):
-        self.startThick = startThick
-        self.temp = temp
-        self.time = time
-        self.amount = amount
+        self.startThick = float(startThick)
+        self.temp = float(temp)
+        self.time = float(time)
+        self.amount = float(amount)
 
 class Hop:
     def __init__(self, hopType = '', boilTime = 0, amount = 0, leafWhole = 'pellet', temp = 0, AA = 0):
-        self.AA = AA
+        self.AA = float(AA)
         self.hopType = hopType
-        self.boilTime = boilTime
-        self.amount = amount
+        self.boilTime = float(boilTime)
+        self.amount = float(amount)
         self.leafWhole = leafWhole
-        self.temp = temp
+        self.temp = float(temp)
 
     #Tar in BoilTime och Original Gravity, returnar AA taget från ett table
     #Input för OgUt får inte vara över 1.13 eller under 1.03
@@ -141,9 +148,9 @@ class Other:
 class PrimingInfo:
     def __init__(self, method = '', amount = 0, temp = 0, co2Level = 0):
         self.method = method
-        self.amount = amount
-        self.temp = temp
-        self.co2Level = co2Level
+        self.amount = float(amount)
+        self.temp = float(temp)
+        self.co2Level = float(co2Level)
 #ska source och targetWater ha en egen klass med värden i?
 class WaterChemistry:
     def __init__(self, sourceWater = None, targetWater = None, minerals = None):
@@ -151,25 +158,33 @@ class WaterChemistry:
         self.targetWater = targetWater
         self.minerals = minerals
 class Sourcewater:
-    def __init__(self, ca2 = 0, mg2 = 0, na2 = 0, cl = 0,
+    def __init__(self, ca2 = 0, mg2 = 0, na = 0, cl = 0,
                  so42 = 0, hco3 = 0):
-        self.chemistry = {'ca2': ca2, 'mg2': mg2, 'na2': na2, 'cl': cl, 'so42': so42, 'hco3': hco3}
+        self.ca2 = float(ca2)
+        self.mg2 = float(mg2)
+        self.na = float(na)
+        self.cl = float(cl)
+        self.so42 = float(so42)
+        self.hco3 = float(hco3)
 class Targetwater(Sourcewater):
-    pass
+    def __init__(self, ca2 = 0, mg2 = 0, na = 0, cl = 0, so42 = 0, hco3 = 0):
+	        super().__init__(ca2, mg2, na, cl, so42, hco3)
+
+
 class Minerals:
     def __init__(self, calciumChloride = 0, chalk = 0, epsomSalt = 0, gypsum = 0, magnesiumChloride = 0,
                 bakingSoda = 0, citricAcid = 0, lacticAcid = 0):
-        self.calciumChloride = calciumChloride
-        self.chalk = chalk
-        self.epsomSalt = epsomSalt
-        self.gypsum = gypsum
-        self.magnesiumChloride = magnesiumChloride
-        self.bakingSoda = bakingSoda
-        self.citricAcid = citricAcid
-        self.lacticAcid = lacticAcid
+        self.calciumChloride = float(calciumChloride)
+        self.chalk = float(chalk)
+        self.epsomSalt = float(epsomSalt)
+        self.gypsum = float(gypsum)
+        self.magnesiumChloride = float(magnesiumChloride)
+        self.bakingSoda = float(bakingSoda)
+        self.citricAcid = float(citricAcid)
+        self.lacticAcid = float(lacticAcid)
 class Yeast:
     def __init__(self, yeastType = '', amount = 0, customAttenuation = 0):
         self.yeastType = yeastType
-        self.amount = amount
-        self.customAttenuation = customAttenuation
+        self.amount = float(amount)
+        self.customAttenuation = float(customAttenuation)
 

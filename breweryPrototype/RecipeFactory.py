@@ -52,19 +52,19 @@ class RecepieFactory:
             hops = []
             #other = Other()
             other = ''
-            sWca2 = recepie['waterChem']['sourceWater']['chemistry']['ca2']
-            sWmg2 = recepie['waterChem']['sourceWater']['chemistry']['mg2']
-            sWna2 = recepie['waterChem']['sourceWater']['chemistry']['na2']
-            sWcl = recepie['waterChem']['sourceWater']['chemistry']['cl']
-            sWso42 = recepie['waterChem']['sourceWater']['chemistry']['so42']
-            sWhco3 = recepie['waterChem']['sourceWater']['chemistry']['hco3']
+            sWca2 = recepie['waterChem']['sourceWater']['ca2']
+            sWmg2 = recepie['waterChem']['sourceWater']['mg2']
+            sWna2 = recepie['waterChem']['sourceWater']['na']
+            sWcl = recepie['waterChem']['sourceWater']['cl']
+            sWso42 = recepie['waterChem']['sourceWater']['so42']
+            sWhco3 = recepie['waterChem']['sourceWater']['hco3']
             sourceWater = RecipeModels.Sourcewater(sWca2, sWmg2, sWna2, sWcl, sWso42, sWhco3)
-            tWca2 = recepie['waterChem']['targetWater']['chemistry']['ca2']
-            tWmg2 = recepie['waterChem']['targetWater']['chemistry']['mg2']
-            tWna2 = recepie['waterChem']['targetWater']['chemistry']['na2']
-            tWcl = recepie['waterChem']['targetWater']['chemistry']['cl']
-            tWso42 = recepie['waterChem']['targetWater']['chemistry']['so42']
-            tWhco3 = recepie['waterChem']['targetWater']['chemistry']['hco3']
+            tWca2 = recepie['waterChem']['targetWater']['ca2']
+            tWmg2 = recepie['waterChem']['targetWater']['mg2']
+            tWna2 = recepie['waterChem']['targetWater']['na']
+            tWcl = recepie['waterChem']['targetWater']['cl']
+            tWso42 = recepie['waterChem']['targetWater']['so42']
+            tWhco3 = recepie['waterChem']['targetWater']['hco3']
             targetWater = RecipeModels.Targetwater(tWca2, tWmg2, tWna2, tWcl, tWso42, tWhco3)
             calciumChloride = recepie['waterChem']['minerals']['calciumChloride']
             chalk = recepie['waterChem']['minerals']['chalk']
@@ -104,6 +104,7 @@ class RecepieFactory:
         userData = userObject.__dict__
         userData['recipes'] = [recepie.__dict__ for recepie in userData['recipes']]
         for recepie in userData['recipes']:
+            print(recepie)
             recepie['fermentables'] = [fermentable.__dict__ for fermentable in recepie['fermentables']]
             recepie['yeast'] = recepie['yeast'].__dict__
             recepie['primeInfo'] = recepie['primeInfo'].__dict__
@@ -130,12 +131,13 @@ class RecepieFactory:
 
 
 
-newRecipe = RecepieFactory.createEmptyRecipe()
-print(newRecipe.mashGuide.temp)
-printjsonFile()
-user = RecepieFactory.createUser()
-print(user.recipes[0].hops[0].hopType)
-RecepieFactory.SaveUser(user)
+# newRecipe = RecepieFactory.createEmptyRecipe()
+# print(newRecipe.mashGuide.temp)
+#printjsonFile()
+#user = RecepieFactory.createUser()
+#print(user.recipes[0].waterChem.targetWater.ca2)
+# print(len(user.recipes))
+#RecepieFactory.SaveUser(user)
 
 
 
