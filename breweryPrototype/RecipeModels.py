@@ -20,9 +20,17 @@ class User:
     def addRecipe(self, recipe):
         self.recipes.append(recipe)
 
-    #TODO remove recipe based off of recipe ID, and reduce recipeCount and adjust recipe count for thos erecipes with higher nr
+    #TODO remove recipe based off of recipe ID, and reduce recipeCount and adjust recipe count for those recipes with higher nr, ej testad.
     def removeRecipe(self, recipeID):
-        pass
+        #hittar vilket recept som har samma id som input och tar bort den från listan.
+        for index, recipe in enumerate(self.recipes):
+            if recipe.recipeID == recipeID:
+                del self.recipes[index]
+        #tar alla recept från och med id input och minskar deras id med 1, så att ingen lucka finns efter man tagit bort ett recept
+        for recipe in range((recipeID - 1), len(self.recipes)):
+            self.recipes[recipe].recipeID -= 1
+        Recipe.recipeCount -= 1
+        
         
         
 class Recipe:
