@@ -58,7 +58,8 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         #hur loopar man över alla rows in hopListWidget och ferListWidget
 
         #rf.RecepieFactory.SaveUser(currentUser)
-        print(type(currentUser)) #returns <class 'RecipeModels.User'>, not a dict
+        print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
+        print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
         self.PopulateRecipeTree()##här failar den, kmr inte längre efter man sparat usern.
     # populates the recipe-tree-list
     def PopulateRecipeTree(self):
