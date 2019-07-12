@@ -66,6 +66,7 @@ class Recipe:
     
     @property 
     def IBU(self):
+        tempIBU = 0
         for hopObj in self.hops:
             addedAA = ((hopObj.AA * hopObj.amount * 1000)/self.batchSize)
             tempIBU += addedAA * hopObj.GetAAUtil(hopObj.boilTime, hopObj.OriginalWurt)

@@ -103,15 +103,34 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.modifiedCl_LE.setText(str(currentRecipe.waterChem.targetWater.cl))
         self.modifiedSo42_LE.setText(str(currentRecipe.waterChem.targetWater.so42))
         self.modifiedHco3_LE.setText(str(currentRecipe.waterChem.targetWater.hco3))
+        #TODO fixa dessa i RecipeModels först.
+        #self.og_LB.setText('Orginal Gravity: {}'.format(str(currentRecipe.og)))
+        #self.fg_LB.setText('Final Gravity: {}'.format(str(currentRecipe.fg)))
+        #self.abv_LB.setText('ABV: {}'.format(str(currentRecipe.ABV)))
+        #self.ibu_LB.setText('IBU: {}'.format(str(currentRecipe.IBU)))
+        #self.srm_LB.setText('SRM: {}'.format(str(currentRecipe.SRM)))
+        #self.mashPh_LB.setText('Mash Ph: {}'.format(str(currentRecipe.MashPh)))
         self.PopulateHopsList(currentRecipe.hops)
         self.PopulateFermentationList(currentRecipe.fermentables)
+        self.PopulateMineralsList(currentRecipe)
+    #populates även om mineralen har värdet noll, ta bort, ha kvar?
+    def PopulateMineralsList(self, aRecipe):
+        x = aRecipe.waterChem.minerals
+        self.mineralsListWidget.clear()
+        item = ['{}unit Calcium Chloride'.format(x.calciumChloride), '{}unit Chalk'.format(x.chalk), '{}unit Epsom Salt'.format(x.epsomSalt), 
+                '{}unit Gypsum'.format(x.gypsum), '{}unit Magnesium Chloride'.format(x.magnesiumChloride), '{}unit Baking Soda'.format(x.bakingSoda),
+                '{}unit Citric Acid'.format(x.citricAcid), '{}unit Lactic Acid'.format(x.lacticAcid)]
+        self.mineralsListWidget.addItems(item)
+
 
     def PopulateHopsList(self, hops):
         self.hopListWidget.clear()
         item = ['{}kg {} {}min {}AA'.format(str(hop.amount),str(hop.hopType),str(hop.boilTime),str(hop.AA)) for hop in hops]
         self.hopListWidget.addItems(item)
-    #TODO
+    #TODO hitta hur man kan se hur många rows som är fyllda, och hur man kan fylla i endast en row som man väljer.
     def AddHop(self):
+        itemToAdd = ''
+        itemToAdd = '{}kg {} {}min {}AA'.format(str(self.hopAmount_LE.text()),str(self.hopName_LE.text()),str(self.hopTime_LE.text()),str(self.AA_LE.text()))
         pass
 
     def RemoveHop(self):
