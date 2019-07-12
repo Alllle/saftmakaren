@@ -120,7 +120,7 @@ class RecepieFactory:
     #Create a "default" recipe.
     @staticmethod
     def createEmptyRecipe():
-        emptyRecipe = RecipeModels.Recipe()
+        emptyRecipe = RecipeModels.Recipe('Default Recipe')
         emptyRecipe.hops.append(RecipeModels.Hop())
         emptyRecipe.fermentables.append(RecipeModels.Fermentable())
         emptyRecipe.mashGuide = RecipeModels.MashGuideline()

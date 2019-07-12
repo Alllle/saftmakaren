@@ -13,8 +13,11 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.showMaximized()#öppnar i fullscreen
         self.setWindowTitle("Saftmakaren") #på window står det stringen
         self.PopulateRecipeTree()
-        self.RecipesTree.itemSelectionChanged.connect(self.EditSelectedRecipe)
+        #self.RecipesTree.itemSelectionChanged.connect(self.EditSelectedRecipe)
         self.save_Recipe_PB.clicked.connect(self.SaveRecipeChanges)
+        self.editRecipe_PB.clicked.connect(self.EditSelectedRecipe)
+        self.removeRecipe_PB.clicked.connect(self.RemoveRecipe)
+        self.newRecipe_PB.clicked.connect(self.CreateNewRecipe)
         
     def getSelectedIndex(self):
         selectedItem = self.RecipesTree.currentItem()
@@ -46,8 +49,9 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.cl = self.modifiedCl_LE.text()
         currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.so42 = self.modifiedSo42_LE.text()
         currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.hco3 = self.modifiedHco3_LE.text()
-        rf.RecepieFactory.SaveUser(currentUser)
-        #self.PopulateRecipeTree()##här failar den, kmr inte längre.
+        #rf.RecepieFactory.SaveUser(currentUser)
+        print(type(currentUser)) #returns <class 'RecipeModels.User'>, not a dict
+        self.PopulateRecipeTree()##här failar den, kmr inte längre efter man sparat usern.
     # populates the recipe-tree-list
     def PopulateRecipeTree(self):
         self.RecipesTree.setHeaderLabels(['#', 'NAME'])
@@ -61,9 +65,8 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         print('sucessfully fills the tree')
     
     def EditSelectedRecipe(self):
+        print('selected index is: ' + str(self.getSelectedIndex()))
         self.PopulateRecipeData(currentUser.recipes[self.getSelectedIndex()])
-        print(self.getSelectedIndex())
-        print(currentUser.recipes[self.getSelectedIndex()].title)
     
      #när ett specifikt recept selectas, eller när man gör ett nytt så ska man ladda in receptdatan i alla lineedits etc. när man klickar på save knappen så fuckar det atm.
     def PopulateRecipeData(self, currentRecipe):
@@ -109,11 +112,20 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
     
     def CreateNewRecipe(self):
         defaultRecipe = rf.RecepieFactory.createEmptyRecipe()
-        self.PopulateRecipeData(defaultRecipe)
+        currentUser.addRecipe(defaultRecipe)
+        #self.RecipesTree.setSelected()
+        #self.PopulateRecipeData(currentRecipe) #skulle kunna ha detta om man kan göra så den selectar rätt lista i recipelist också. annars så får man selecta manuelt
+        #och först då populatea datan.
+        #rf.RecepieFactory.SaveUser(currentUser)
+        self.PopulateRecipeTree()
         pass
 
     def RemoveRecipe(self):
-        pass
+        self.getSelectedIndex()
+        currentUser.removeRecipe(self.getSelectedIndex()+1)
+        #rf.RecepieFactory.SaveUser(currentUser) #kan inte populera trädet efteråt, currentRecipe.title etc är dict.
+        self.PopulateRecipeTree()
+        
        
 
 
