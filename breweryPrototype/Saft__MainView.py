@@ -18,37 +18,45 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.editRecipe_PB.clicked.connect(self.EditSelectedRecipe)
         self.removeRecipe_PB.clicked.connect(self.RemoveRecipe)
         self.newRecipe_PB.clicked.connect(self.CreateNewRecipe)
+        self.ferAdd_PB.clicked.connect(self.AddFermentation) #TODO
+        self.hopAdd_PB.clicked.connect(self.AddHop) #TODO
+        self.ferRemove_PB.clicked.connect(self.RemoveFermentation) #TODO
+        self.hopRemove_PB.clicked.connect(self.RemoveHop) #TODO
         
     def getSelectedIndex(self):
         selectedItem = self.RecipesTree.currentItem()
         selectedIndex = self.RecipesTree.indexOfTopLevelItem(selectedItem)
         return selectedIndex
     def SaveRecipeChanges(self):
-        currentUser.recipes[self.getSelectedIndex()].title = self.recipeName_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].batchSize = self.batchSize_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].description = self.description_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].boilTime = self.boilTime_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].efficiency = self.efficiency_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].mashGuide.startThick = self.startThickness_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].mashGuide.time = self.mashTime_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].mashGuide.temp = self.mashTemp_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].mashGuide.amount = self.mashAmount_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].primeInfo.method = self.method_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].primeInfo.temp = self.primeTemp_Le.text()
-        currentUser.recipes[self.getSelectedIndex()].primeInfo.co2Level = self.co2Level_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].primeInfo.amount = self.primeAmount_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.sourceWater.ca2 = self.sourceCa2_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.sourceWater.mg2 = self.sourceMg2_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.sourceWater.na = self.sourceNa_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.sourceWater.cl = self.sourceCl_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.sourceWater.so42 = self.sourceSo42_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.sourceWater.hco3 = self.sourceHco3_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.ca2 = self.modifiedCa2_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.mg2 = self.modifiedMg2_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.na = self.modifiedNa_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.cl = self.modifiedCl_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.so42 = self.modifiedSo42_LE.text()
-        currentUser.recipes[self.getSelectedIndex()].waterChem.targetWater.hco3 = self.modifiedHco3_LE.text()
+        leIndex = self.getSelectedIndex()
+        currentUser.recipes[leIndex].title = self.recipeName_LE.text()
+        currentUser.recipes[leIndex].batchSize = self.batchSize_LE.text()
+        currentUser.recipes[leIndex].description = self.description_LE.text()
+        currentUser.recipes[leIndex].boilTime = self.boilTime_LE.text()
+        currentUser.recipes[leIndex].efficiency = self.efficiency_LE.text()
+        currentUser.recipes[leIndex].mashGuide.startThick = self.startThickness_LE.text()
+        currentUser.recipes[leIndex].mashGuide.time = self.mashTime_LE.text()
+        currentUser.recipes[leIndex].mashGuide.temp = self.mashTemp_LE.text()
+        currentUser.recipes[leIndex].mashGuide.amount = self.mashAmount_LE.text()
+        currentUser.recipes[leIndex].primeInfo.method = self.method_LE.text()
+        currentUser.recipes[leIndex].primeInfo.temp = self.primeTemp_Le.text()
+        currentUser.recipes[leIndex].primeInfo.co2Level = self.co2Level_LE.text()
+        currentUser.recipes[leIndex].primeInfo.amount = self.primeAmount_LE.text()
+        currentUser.recipes[leIndex].waterChem.sourceWater.ca2 = self.sourceCa2_LE.text()
+        currentUser.recipes[leIndex].waterChem.sourceWater.mg2 = self.sourceMg2_LE.text()
+        currentUser.recipes[leIndex].waterChem.sourceWater.na = self.sourceNa_LE.text()
+        currentUser.recipes[leIndex].waterChem.sourceWater.cl = self.sourceCl_LE.text()
+        currentUser.recipes[leIndex].waterChem.sourceWater.so42 = self.sourceSo42_LE.text()
+        currentUser.recipes[leIndex].waterChem.sourceWater.hco3 = self.sourceHco3_LE.text()
+        currentUser.recipes[leIndex].waterChem.targetWater.ca2 = self.modifiedCa2_LE.text()
+        currentUser.recipes[leIndex].waterChem.targetWater.mg2 = self.modifiedMg2_LE.text()
+        currentUser.recipes[leIndex].waterChem.targetWater.na = self.modifiedNa_LE.text()
+        currentUser.recipes[leIndex].waterChem.targetWater.cl = self.modifiedCl_LE.text()
+        currentUser.recipes[leIndex].waterChem.targetWater.so42 = self.modifiedSo42_LE.text()
+        currentUser.recipes[leIndex].waterChem.targetWater.hco3 = self.modifiedHco3_LE.text()
+        #TODO:
+        #hur loopar man över alla rows in hopListWidget och ferListWidget
+
         #rf.RecepieFactory.SaveUser(currentUser)
         print(type(currentUser)) #returns <class 'RecipeModels.User'>, not a dict
         self.PopulateRecipeTree()##här failar den, kmr inte längre efter man sparat usern.
@@ -102,13 +110,23 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.hopListWidget.clear()
         item = ['{}kg {} {}min {}AA'.format(str(hop.amount),str(hop.hopType),str(hop.boilTime),str(hop.AA)) for hop in hops]
         self.hopListWidget.addItems(item)
+    #TODO
+    def AddHop(self):
+        pass
+
+    def RemoveHop(self):
+        pass
 
     def PopulateFermentationList(self, fermentations):
         self.ferListWidget.clear()
         item = ['{}kg {}  {}L'.format(str(fermentation.kg),str(fermentation.ferType),str(fermentation.lovibond)) for fermentation in fermentations]
         self.ferListWidget.addItems(item)
+    #TODO
+    def AddFermentation(self):
+        pass
 
-    
+    def RemoveFermentation(self):
+        pass
     
     def CreateNewRecipe(self):
         defaultRecipe = rf.RecepieFactory.createEmptyRecipe()
