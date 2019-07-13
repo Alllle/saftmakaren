@@ -29,38 +29,42 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         return selectedIndex
     def SaveRecipeChanges(self):
         leIndex = self.getSelectedIndex()
-        currentUser.recipes[leIndex].title = self.recipeName_LE.text()
-        currentUser.recipes[leIndex].batchSize = self.batchSize_LE.text()
-        currentUser.recipes[leIndex].description = self.description_LE.text()
-        currentUser.recipes[leIndex].boilTime = self.boilTime_LE.text()
-        currentUser.recipes[leIndex].efficiency = self.efficiency_LE.text()
-        currentUser.recipes[leIndex].mashGuide.startThick = self.startThickness_LE.text()
-        currentUser.recipes[leIndex].mashGuide.time = self.mashTime_LE.text()
-        currentUser.recipes[leIndex].mashGuide.temp = self.mashTemp_LE.text()
-        currentUser.recipes[leIndex].mashGuide.amount = self.mashAmount_LE.text()
-        currentUser.recipes[leIndex].primeInfo.method = self.method_LE.text()
-        currentUser.recipes[leIndex].primeInfo.temp = self.primeTemp_Le.text()
-        currentUser.recipes[leIndex].primeInfo.co2Level = self.co2Level_LE.text()
-        currentUser.recipes[leIndex].primeInfo.amount = self.primeAmount_LE.text()
-        currentUser.recipes[leIndex].waterChem.sourceWater.ca2 = self.sourceCa2_LE.text()
-        currentUser.recipes[leIndex].waterChem.sourceWater.mg2 = self.sourceMg2_LE.text()
-        currentUser.recipes[leIndex].waterChem.sourceWater.na = self.sourceNa_LE.text()
-        currentUser.recipes[leIndex].waterChem.sourceWater.cl = self.sourceCl_LE.text()
-        currentUser.recipes[leIndex].waterChem.sourceWater.so42 = self.sourceSo42_LE.text()
-        currentUser.recipes[leIndex].waterChem.sourceWater.hco3 = self.sourceHco3_LE.text()
-        currentUser.recipes[leIndex].waterChem.targetWater.ca2 = self.modifiedCa2_LE.text()
-        currentUser.recipes[leIndex].waterChem.targetWater.mg2 = self.modifiedMg2_LE.text()
-        currentUser.recipes[leIndex].waterChem.targetWater.na = self.modifiedNa_LE.text()
-        currentUser.recipes[leIndex].waterChem.targetWater.cl = self.modifiedCl_LE.text()
-        currentUser.recipes[leIndex].waterChem.targetWater.so42 = self.modifiedSo42_LE.text()
-        currentUser.recipes[leIndex].waterChem.targetWater.hco3 = self.modifiedHco3_LE.text()
-        #TODO:
-        #hur loopar man över alla rows in hopListWidget och ferListWidget
+        if leIndex >= 0:
+            currentUser.recipes[leIndex].title = self.recipeName_LE.text()
+            currentUser.recipes[leIndex].batchSize = self.batchSize_LE.text()
+            currentUser.recipes[leIndex].description = self.description_LE.text()
+            currentUser.recipes[leIndex].boilTime = self.boilTime_LE.text()
+            currentUser.recipes[leIndex].efficiency = self.efficiency_LE.text()
+            currentUser.recipes[leIndex].mashGuide.startThick = self.startThickness_LE.text()
+            currentUser.recipes[leIndex].mashGuide.time = self.mashTime_LE.text()
+            currentUser.recipes[leIndex].mashGuide.temp = self.mashTemp_LE.text()
+            currentUser.recipes[leIndex].mashGuide.amount = self.mashAmount_LE.text()
+            currentUser.recipes[leIndex].primeInfo.method = self.method_LE.text()
+            currentUser.recipes[leIndex].primeInfo.temp = self.primeTemp_Le.text()
+            currentUser.recipes[leIndex].primeInfo.co2Level = self.co2Level_LE.text()
+            currentUser.recipes[leIndex].primeInfo.amount = self.primeAmount_LE.text()
+            currentUser.recipes[leIndex].waterChem.sourceWater.ca2 = self.sourceCa2_LE.text()
+            currentUser.recipes[leIndex].waterChem.sourceWater.mg2 = self.sourceMg2_LE.text()
+            currentUser.recipes[leIndex].waterChem.sourceWater.na = self.sourceNa_LE.text()
+            currentUser.recipes[leIndex].waterChem.sourceWater.cl = self.sourceCl_LE.text()
+            currentUser.recipes[leIndex].waterChem.sourceWater.so42 = self.sourceSo42_LE.text()
+            currentUser.recipes[leIndex].waterChem.sourceWater.hco3 = self.sourceHco3_LE.text()
+            currentUser.recipes[leIndex].waterChem.targetWater.ca2 = self.modifiedCa2_LE.text()
+            currentUser.recipes[leIndex].waterChem.targetWater.mg2 = self.modifiedMg2_LE.text()
+            currentUser.recipes[leIndex].waterChem.targetWater.na = self.modifiedNa_LE.text()
+            currentUser.recipes[leIndex].waterChem.targetWater.cl = self.modifiedCl_LE.text()
+            currentUser.recipes[leIndex].waterChem.targetWater.so42 = self.modifiedSo42_LE.text()
+            currentUser.recipes[leIndex].waterChem.targetWater.hco3 = self.modifiedHco3_LE.text()
+            #TODO:
+            #hur loopar man över alla rows in hopListWidget och ferListWidget
 
-        #rf.RecepieFactory.SaveUser(currentUser)
-        print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
-        print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
-        self.PopulateRecipeTree()##här failar den, kmr inte längre efter man sparat usern.
+            #rf.RecepieFactory.SaveUser(currentUser)
+            print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
+            print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
+            self.PopulateRecipeTree()##här failar den, kmr inte längre efter man sparat usern.
+        else:
+            QtWidgets.QMessageBox.about(self, 'Couldn\'t save recipe', 'Select a recipe to save!')
+            return
     # populates the recipe-tree-list
     def PopulateRecipeTree(self):
         self.RecipesTree.setHeaderLabels(['#', 'NAME'])
@@ -79,6 +83,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         if selected >= 0:
             self.PopulateRecipeData(currentUser.recipes[selected])
         else:
+            QtWidgets.QMessageBox.about(self, 'Couldn\'t edit recipe', 'Select a recipe to edit!')
             return
     
      #när ett specifikt recept selectas, eller när man gör ett nytt så ska man ladda in receptdatan i alla lineedits etc. när man klickar på save knappen så fuckar det atm.
@@ -169,6 +174,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             #rf.RecepieFactory.SaveUser(currentUser) #kan inte populera trädet efteråt, currentRecipe.title etc är dict.
             self.PopulateRecipeTree()
         else:
+            QtWidgets.QMessageBox.about(self, 'Couldn\'t remove recipe', 'Select a recipe to remove!')
             return
         
        
