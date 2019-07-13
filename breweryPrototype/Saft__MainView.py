@@ -74,8 +74,12 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         print('sucessfully fills the tree')
     
     def EditSelectedRecipe(self):
+        selected = self.getSelectedIndex()
         print('selected index is: ' + str(self.getSelectedIndex()))
-        self.PopulateRecipeData(currentUser.recipes[self.getSelectedIndex()])
+        if selected >= 0:
+            self.PopulateRecipeData(currentUser.recipes[selected])
+        else:
+            return
     
      #när ett specifikt recept selectas, eller när man gör ett nytt så ska man ladda in receptdatan i alla lineedits etc. när man klickar på save knappen så fuckar det atm.
     def PopulateRecipeData(self, currentRecipe):
@@ -159,10 +163,13 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         pass
 
     def RemoveRecipe(self):
-        self.getSelectedIndex()
-        currentUser.removeRecipe(self.getSelectedIndex()+1)
-        #rf.RecepieFactory.SaveUser(currentUser) #kan inte populera trädet efteråt, currentRecipe.title etc är dict.
-        self.PopulateRecipeTree()
+        selected = self.getSelectedIndex()
+        if selected >= 0:
+            currentUser.removeRecipe(self.getSelectedIndex()+1)
+            #rf.RecepieFactory.SaveUser(currentUser) #kan inte populera trädet efteråt, currentRecipe.title etc är dict.
+            self.PopulateRecipeTree()
+        else:
+            return
         
        
 
