@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 import RecipeModels as rm
 import RecipeFactory as rf
-import Saftmakaren, pprint
+import Saftmakaren, pprint, re
 
 
 currentUser = rf.RecepieFactory.createUser()
@@ -56,15 +56,43 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             currentUser.recipes[leIndex].waterChem.targetWater.so42 = self.modifiedSo42_LE.text()
             currentUser.recipes[leIndex].waterChem.targetWater.hco3 = self.modifiedHco3_LE.text()
             #TODO:
-            #hur loopar man över alla rows in hopListWidget och ferListWidget
+            #currentUser.recipes[leIndex].hops = self.getHopListWidget()
+
+            currentUser.recipes[leIndex].fermentables = self.getFerListWidget()
+
 
             #rf.RecepieFactory.SaveUser(currentUser)
             print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
             print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
+            pprint.pprint(currentUser.recipes[0])
+            pprint.pprint(currentUser)
             self.PopulateRecipeTree()##här failar den, kmr inte längre efter man sparat usern.
         else:
             QtWidgets.QMessageBox.about(self, 'Couldn\'t save recipe', 'Select a recipe to save!')
             return
+    #returns a list of hop objects taken from input list TODO
+    def getHopListWidget(self):
+        hopList = []
+        for index in range(self.hopListWidget.count()): #returnar antal listor/rows i listan av hops
+            hopRow = self.hopListWidget.item(index).text().split(' ')
+            number = re.compile(r'\d*\.\d*')
+            hopRow[0] = number.search(hopRow[0]).group()
+            hopRow[2] = number.search(hopRow[2]).group()
+            hopRow[3] = number.search(hopRow[3]).group()
+            #hopList.append(hop(hopType = '', boilTime = 0, amount = 0, leafWhole = 'pellet', temp = 0, AA = 0)), vad ska vi ha med? ändra ui eller model?
+        return hopList
+
+    #returns a list of fermentation objects taken from input list
+    def getFerListWidget(self):
+        ferList = []
+        for index in range(self.ferListWidget.count()):#returnar antal listor/rows i listan av hops
+            ferRow = self.ferListWidget.item(index).text().split(' ')
+            number = re.compile(r'\d*\.\d*')
+            ferRow[0] = number.search(ferRow[0]).group()
+            ferRow[2] = number.search(ferRow[2]).group()
+            ferList.append(rm.Fermentable(ferRow[1], ferRow[0], ferRow[2]))
+        return ferList
+
     # populates the recipe-tree-list
     def PopulateRecipeTree(self):
         self.RecipesTree.setHeaderLabels(['#', 'NAME'])
@@ -141,6 +169,8 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
     def AddHop(self):
         itemToAdd = ''
         itemToAdd = '{}kg {} {}min {}AA'.format(str(self.hopAmount_LE.text()),str(self.hopName_LE.text()),str(self.hopTime_LE.text()),str(self.AA_LE.text()))
+        self.hopListWidget.count() #returnar antal listor/rows i listan av hops
+        self.hopListWidget.item(self.hopListWidget.count())
         pass
 
     def RemoveHop(self):
@@ -148,7 +178,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
 
     def PopulateFermentationList(self, fermentations):
         self.ferListWidget.clear()
-        item = ['{}kg {}  {}L'.format(str(fermentation.kg),str(fermentation.ferType),str(fermentation.lovibond)) for fermentation in fermentations]
+        item = ['{}kg {} {}L'.format(str(fermentation.kg),str(fermentation.ferType),str(fermentation.lovibond)) for fermentation in fermentations]
         self.ferListWidget.addItems(item)
     #TODO
     def AddFermentation(self):
