@@ -15,6 +15,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.PopulateRecipeTree()
         #self.RecipesTree.itemSelectionChanged.connect(self.EditSelectedRecipe)
         self.save_Recipe_PB.clicked.connect(self.SaveRecipeChanges)
+        self.scrapChanges_PB.clicked.connect(self.EditSelectedRecipe)
         self.editRecipe_PB.clicked.connect(self.EditSelectedRecipe)
         self.removeRecipe_PB.clicked.connect(self.RemoveRecipe)
         self.newRecipe_PB.clicked.connect(self.CreateNewRecipe)
@@ -22,7 +23,8 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.hopAdd_PB.clicked.connect(self.AddHop) #TODO
         self.ferRemove_PB.clicked.connect(self.RemoveFermentation) #TODO
         self.hopRemove_PB.clicked.connect(self.RemoveHop) #TODO
-        
+
+        #tror det är en omväg atm...
     def getSelectedIndex(self):
         selectedItem = self.RecipesTree.currentItem()
         selectedIndex = self.RecipesTree.indexOfTopLevelItem(selectedItem)
@@ -167,14 +169,35 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.hopListWidget.addItems(item)
     #TODO hitta hur man kan se hur många rows som är fyllda, och hur man kan fylla i endast en row som man väljer.
     def AddHop(self):
-        itemToAdd = ''
-        itemToAdd = '{}kg {} {}min {}AA'.format(str(self.hopAmount_LE.text()),str(self.hopName_LE.text()),str(self.hopTime_LE.text()),str(self.AA_LE.text()))
-        self.hopListWidget.count() #returnar antal listor/rows i listan av hops
-        self.hopListWidget.item(self.hopListWidget.count())
-        pass
+        if self.getSelectedIndex() >= 0:
+            hopAmount = self.hopAmount_LE.text()
+            if hopAmount == '':
+                hopAmount = 0.0
+            elif type(hopAmount) != float or type(hopAmount) != int: #om man har input int eller float funkar det inte....fixa
+                QtWidgets.QMessageBox.about(self, 'Invalid input', 'Amount has to be a number')
+                return
+            hopName = self.hopName_LE.text()
+            if hopName == '':
+                hopName = 'default'
+            hopTime = self.hopTime_LE.text()
+            if hopTime == '':
+                hopTime = 0.0
+            elif type(hopTime) != float or type(hopTime) != int:
+                QtWidgets.QMessageBox.about(self, 'Invalid input', 'Boiltime has to be a number')
+                return
+            hopAA = self.AA_LE.text()
+            if hopAA == '':
+                hopAA = 0.0
+            elif type(hopAA) != float or type(hopAA) != int:
+                QtWidgets.QMessageBox.about(self, 'Invalid input', 'AA has to be a number')
+                return
+            itemToAdd = '{}kg {} {}min {}AA'.format(str(float(hopAmount)), hopName,str(hopTime),str(hopAA))
+            self.hopListWidget.addItem(itemToAdd)
+        else:
+            QtWidgets.QMessageBox.about(self, 'Couldn\'t add hop', 'Select a recipe first')
 
     def RemoveHop(self):
-        pass
+        self.hopListWidget.takeItem(self.hopListWidget.currentIndex().row()) #enklaste sättet att ta bort ett item från en rad (take item returnar item som man tar bort)
 
     def PopulateFermentationList(self, fermentations):
         self.ferListWidget.clear()
@@ -182,10 +205,29 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.ferListWidget.addItems(item)
     #TODO
     def AddFermentation(self):
-        pass
+        if self.getSelectedIndex() >= 0:
+            ferAmount = self.ferAmount_LE.text()
+            if ferAmount == '':
+                ferAmount = 0.0
+            elif type(ferAmount) != float or type(ferAmount) != int: #om man har input int eller float funkar det inte....fixa
+                QtWidgets.QMessageBox.about(self, 'Invalid input', 'Amount has to be a number')
+                return
+            ferName = self.ferName_LE.text()
+            if ferName == '':
+                ferName = 'default'
+            lovibond = self.lovibond_LE.text()
+            if lovibond == '':
+                lovibond = 0.0
+            elif type(lovibond) != float or type(lovibond) != int:
+                QtWidgets.QMessageBox.about(self, 'Invalid input', 'Lovibond has to be a number')
+                return
+            itemToAdd = '{}kg {} {}AA'.format(str(ferAmount),ferName,str(lovibond))
+            self.ferListWidget.addItem(itemToAdd)
+        else:
+            QtWidgets.QMessageBox.about(self, 'Couldn\'t add fermentation', 'Select a recipe first')
 
     def RemoveFermentation(self):
-        pass
+        self.ferListWidget.takeItem(self.ferListWidget.currentIndex().row())
     
     def CreateNewRecipe(self):
         defaultRecipe = rf.RecepieFactory.createEmptyRecipe()
@@ -195,7 +237,6 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         #och först då populatea datan.
         #rf.RecepieFactory.SaveUser(currentUser)
         self.PopulateRecipeTree()
-        pass
 
     def RemoveRecipe(self):
         selected = self.getSelectedIndex()
