@@ -63,7 +63,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             currentUser.recipes[leIndex].fermentables = self.getFerListWidget()
 
 
-            #rf.RecepieFactory.SaveUser(currentUser)
+            #currentUser.SaveUser()
             print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
             print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
             pprint.pprint(currentUser.recipes[0])
@@ -191,7 +191,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             elif type(hopAA) != float or type(hopAA) != int:
                 QtWidgets.QMessageBox.about(self, 'Invalid input', 'AA has to be a number')
                 return
-            itemToAdd = '{}kg {} {}min {}AA'.format(str(float(hopAmount)), hopName,str(hopTime),str(hopAA))
+            itemToAdd = '{}kg {} {}min {}AA'.format(str(float(hopAmount)), hopName,float(hopTime),float(hopAA))
             self.hopListWidget.addItem(itemToAdd)
         else:
             QtWidgets.QMessageBox.about(self, 'Couldn\'t add hop', 'Select a recipe first')
@@ -207,9 +207,11 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
     def AddFermentation(self):
         if self.getSelectedIndex() >= 0:
             ferAmount = self.ferAmount_LE.text()
+            print(type(ferAmount))
             if ferAmount == '':
                 ferAmount = 0.0
-            elif type(ferAmount) != float or type(ferAmount) != int: #om man har input int eller float funkar det inte....fixa
+            elif type(ferAmount) != float or type(ferAmount) != int: #om man har input int eller float funkar det inte....(den är en string, måste man ha try, except 
+                #för att göra om det till en float?)
                 QtWidgets.QMessageBox.about(self, 'Invalid input', 'Amount has to be a number')
                 return
             ferName = self.ferName_LE.text()
@@ -221,7 +223,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             elif type(lovibond) != float or type(lovibond) != int:
                 QtWidgets.QMessageBox.about(self, 'Invalid input', 'Lovibond has to be a number')
                 return
-            itemToAdd = '{}kg {} {}AA'.format(str(ferAmount),ferName,str(lovibond))
+            itemToAdd = '{}kg {} {}AA'.format(float(ferAmount),ferName,float(lovibond))
             self.ferListWidget.addItem(itemToAdd)
         else:
             QtWidgets.QMessageBox.about(self, 'Couldn\'t add fermentation', 'Select a recipe first')
@@ -235,7 +237,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         #self.RecipesTree.setSelected()
         #self.PopulateRecipeData(currentRecipe) #skulle kunna ha detta om man kan göra så den selectar rätt lista i recipelist också. annars så får man selecta manuelt
         #och först då populatea datan.
-        #rf.RecepieFactory.SaveUser(currentUser)
+        #rf.RecepieFactory.SaveUser(currentUser)/currentUser.SaveUser()
         self.PopulateRecipeTree()
 
     def RemoveRecipe(self):

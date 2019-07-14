@@ -99,23 +99,23 @@ class RecepieFactory:
         
         return user
     #convert userObject (the Sser class object) to a dictionary, so that it can be written into the json file.
-    @staticmethod
-    def SaveUser(userObject):
-        userData = userObject.__dict__
-        userData['recipes'] = [recepie.__dict__ for recepie in userData['recipes']]
-        for recepie in userData['recipes']:
-            print(recepie)
-            recepie['fermentables'] = [fermentable.__dict__ for fermentable in recepie['fermentables']]
-            recepie['yeast'] = recepie['yeast'].__dict__
-            recepie['primeInfo'] = recepie['primeInfo'].__dict__
-            recepie['hops'] = [hop.__dict__ for hop in recepie['hops']]
-            recepie['waterChem'] = recepie['waterChem'].__dict__
-            recepie['waterChem']['sourceWater'] = recepie['waterChem']['sourceWater'].__dict__
-            recepie['waterChem']['targetWater'] = recepie['waterChem']['targetWater'].__dict__
-            recepie['waterChem']['minerals'] = recepie['waterChem']['minerals'].__dict__
-            recepie['mashGuide'] = recepie['mashGuide'].__dict__
-            #TODO if we add other class, add here
-        writeJsonData(userData)
+    # @staticmethod
+    # def SaveUser(userObject):
+    #     userData = userObject.__dict__
+    #     userData['recipes'] = [recepie.__dict__ for recepie in userData['recipes']]
+    #     for recepie in userData['recipes']:
+    #         print(recepie)
+    #         recepie['fermentables'] = [fermentable.__dict__ for fermentable in recepie['fermentables']]
+    #         recepie['yeast'] = recepie['yeast'].__dict__
+    #         recepie['primeInfo'] = recepie['primeInfo'].__dict__
+    #         recepie['hops'] = [hop.__dict__ for hop in recepie['hops']]
+    #         recepie['waterChem'] = recepie['waterChem'].__dict__
+    #         recepie['waterChem']['sourceWater'] = recepie['waterChem']['sourceWater'].__dict__
+    #         recepie['waterChem']['targetWater'] = recepie['waterChem']['targetWater'].__dict__
+    #         recepie['waterChem']['minerals'] = recepie['waterChem']['minerals'].__dict__
+    #         recepie['mashGuide'] = recepie['mashGuide'].__dict__
+    #         #TODO if we add other class, add here
+    #     writeJsonData(userData)
 
     #Create a "default" recipe.
     @staticmethod

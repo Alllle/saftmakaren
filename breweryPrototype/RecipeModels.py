@@ -1,6 +1,8 @@
 #!python3
 #Classes related to recipe.
 
+import RecipeFactory
+
 class User:
     def __init__(self, name = None, img = None, recipes = None):
         if name == None:
@@ -30,6 +32,23 @@ class User:
         for recipe in range((recipeID - 1), len(self.recipes)):
             self.recipes[recipe].recipeID -= 1
         Recipe.recipeCount -= 1
+
+    def SaveUser(self):
+        userData = self.__dict__
+        userData['recipes'] = [recepie.__dict__ for recepie in userData['recipes']]
+        for recepie in userData['recipes']:
+            print(recepie)
+            recepie['fermentables'] = [fermentable.__dict__ for fermentable in recepie['fermentables']]
+            recepie['yeast'] = recepie['yeast'].__dict__
+            recepie['primeInfo'] = recepie['primeInfo'].__dict__
+            recepie['hops'] = [hop.__dict__ for hop in recepie['hops']]
+            recepie['waterChem'] = recepie['waterChem'].__dict__
+            recepie['waterChem']['sourceWater'] = recepie['waterChem']['sourceWater'].__dict__
+            recepie['waterChem']['targetWater'] = recepie['waterChem']['targetWater'].__dict__
+            recepie['waterChem']['minerals'] = recepie['waterChem']['minerals'].__dict__
+            recepie['mashGuide'] = recepie['mashGuide'].__dict__
+            #TODO if we add other class, add here
+        RecipeFactory.writeJsonData(userData)
         
         
         
