@@ -12,17 +12,19 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.setupUi(self)
         self.showMaximized()#öppnar i fullscreen
         self.setWindowTitle("Saftmakaren") #på window står det stringen
+        self.username_LB.setText(currentUser.name)
         self.PopulateRecipeTree()
         #self.RecipesTree.itemSelectionChanged.connect(self.EditSelectedRecipe)
-        self.save_Recipe_PB.clicked.connect(self.SaveRecipeChanges)
+        self.save_Recipe_PB.clicked.connect(self.SaveRecipeChanges) #TODO
         self.scrapChanges_PB.clicked.connect(self.EditSelectedRecipe)
         self.editRecipe_PB.clicked.connect(self.EditSelectedRecipe)
         self.removeRecipe_PB.clicked.connect(self.RemoveRecipe)
         self.newRecipe_PB.clicked.connect(self.CreateNewRecipe)
         self.ferAdd_PB.clicked.connect(self.AddFermentation) #TODO
         self.hopAdd_PB.clicked.connect(self.AddHop) #TODO
-        self.ferRemove_PB.clicked.connect(self.RemoveFermentation) #TODO
-        self.hopRemove_PB.clicked.connect(self.RemoveHop) #TODO
+        self.ferRemove_PB.clicked.connect(self.RemoveFermentation)
+        self.hopRemove_PB.clicked.connect(self.RemoveHop)
+
 
         #tror det är en omväg atm...
     def getSelectedIndex(self):
@@ -99,7 +101,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
     def PopulateRecipeTree(self):
         self.RecipesTree.setHeaderLabels(['#', 'NAME'])
         print('bugdetect1')
-        self.RecipesTree.clear() #gör trädet tomt igen ##här failar den, kmr itne längre efte rman klickar på save, oavsett om man ändrar på något eller ej (men selecta ett recept först)
+        self.RecipesTree.clear()
         print('bugdetect2')
         for recipe in currentUser.recipes:
             item = QtWidgets.QTreeWidgetItem(self.RecipesTree)
@@ -107,6 +109,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             item.setText(1, str(recipe.title))
         print('sucessfully fills the tree')
     
+    #polulatear all den data för det recept man selectar i rätt boxar etc.
     def EditSelectedRecipe(self):
         selected = self.getSelectedIndex()
         print('selected index is: ' + str(self.getSelectedIndex()))
@@ -167,7 +170,8 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.hopListWidget.clear()
         item = ['{}kg {} {}min {}AA'.format(str(hop.amount),str(hop.hopType),str(hop.boilTime),str(hop.AA)) for hop in hops]
         self.hopListWidget.addItems(item)
-    #TODO hitta hur man kan se hur många rows som är fyllda, och hur man kan fylla i endast en row som man väljer.
+
+    #TODO hur ska man kontrollera input, try/except eller ej?
     def AddHop(self):
         if self.getSelectedIndex() >= 0:
             hopAmount = self.hopAmount_LE.text()
@@ -234,9 +238,6 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
     def CreateNewRecipe(self):
         defaultRecipe = rf.RecepieFactory.createEmptyRecipe()
         currentUser.addRecipe(defaultRecipe)
-        #self.RecipesTree.setSelected()
-        #self.PopulateRecipeData(currentRecipe) #skulle kunna ha detta om man kan göra så den selectar rätt lista i recipelist också. annars så får man selecta manuelt
-        #och först då populatea datan.
         #rf.RecepieFactory.SaveUser(currentUser)/currentUser.SaveUser()
         self.PopulateRecipeTree()
 

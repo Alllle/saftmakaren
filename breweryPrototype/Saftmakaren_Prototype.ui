@@ -331,7 +331,7 @@
             <string>Amount</string>
            </property>
           </widget>
-          <widget class="QTreeWidget" name="treeWidget_2">
+          <widget class="QTreeWidget" name="mineralsTree">
            <property name="geometry">
             <rect>
              <x>90</x>
