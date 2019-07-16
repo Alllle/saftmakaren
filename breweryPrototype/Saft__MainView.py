@@ -65,9 +65,9 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             currentUser.recipes[leIndex].fermentables = self.getFerListWidget()
 
 
-            #currentUser.SaveUser()
-            print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
-            print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
+            currentUser.SaveUser()
+            #print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
+            #print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
             pprint.pprint(currentUser.recipes[0])
             pprint.pprint(currentUser)
             self.PopulateRecipeTree()##här failar den, kmr inte längre efter man sparat usern.
