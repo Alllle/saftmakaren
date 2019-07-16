@@ -53,6 +53,22 @@ class User:
             #TODO if we add other class, add here
         print(type(self.recipes[0]))
         RecipeFactory.writeJsonData(userData)
+
+    def SaveUser2(self):
+        userDataSave = {"name": self.name, "img": self.img, "recipes": [{"title": r.title, "description": r.description, "og": r.og, "fg": r.og, 
+        "yeast": {"yeastType": r.yeast.yeastType, "amount": r.yeast.amount, "customAttenuation": r.yeast.customAttenuation}, "primeInfo": {"method": 
+        r.primeInfo.method, "amount": r.primeInfo.amount, "temp": r.primeInfo.temp, "co2Level": r.primeInfo.co2Level},
+        "waterChem": {"sourceWater": {"ca2": r.waterChem.sourceWater.ca2, "mg2": r.waterChem.sourceWater.mg2, "na": r.waterChem.sourceWater.na, 
+        "cl": r.waterChem.sourceWater.cl, "so42": r.waterChem.sourceWater.so42, "hco3": r.waterChem.sourceWater.hco3}, "targetWater": {"ca2": r.waterChem.targetWater.ca2, 
+        "mg2": r.waterChem.targetWater.mg2, "na": r.waterChem.targetWater.na, "cl": r.waterChem.targetWater.cl, "so42": r.waterChem.targetWater.so42, 
+        "hco3": r.waterChem.targetWater.hco3}, "minerals": {"calciumChloride": r.waterChem.minerals.calciumChloride, "chalk": r.waterChem.minerals.chalk, 
+        "epsomSalt": r.waterChem.minerals.epsomSalt, "gypsum": r.waterChem.minerals.gypsum, "magnesiumChloride": r.waterChem.minerals.magnesiumChloride, 
+        "bakingSoda": r.waterChem.minerals.bakingSoda, "citricAcid": r.waterChem.minerals.citricAcid, "lacticAcid": r.waterChem.minerals.lacticAcid}}, 
+        "boilTime": r.boilTime, "efficiency": r.efficiency, "batchSize": r.batchSize, "mashGuide": {"startThick": r.mashGuide.startThick, "temp": r.mashGuide.temp, 
+        "time": r.mashGuide.time, "amount": r.mashGuide.amount}, "other": "", "hops": [{"AA": hop.AA, "hopType": hop.hopType, "boilTime": hop.boilTime, "amount": hop.amount, 
+        "leafWhole": hop.leafWhole, "temp": hop.temp} for hop in r.hops], "fermentables": [{"ferType": fer.ferType, "kg": fer.kg, "lovibond": fer.lovibond} 
+        for fer in r.fermentables]} for r in self.recipes]}
+        RecipeFactory.writeJsonData(userDataSave)
         
         
         

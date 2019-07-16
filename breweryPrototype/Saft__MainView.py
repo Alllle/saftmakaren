@@ -14,7 +14,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.setWindowTitle("Saftmakaren") #på window står det stringen
         self.username_LB.setText(currentUser.name)
         self.PopulateRecipeTree()
-        #self.RecipesTree.itemSelectionChanged.connect(self.EditSelectedRecipe)
+        #self.RecipesTree.itemSelectionChanged.connect(self.EditSelectedRecipe) #funkar itne då man tar bort ett recept, den letar då efter selected index som ej finns
         self.save_Recipe_PB.clicked.connect(self.SaveRecipeChanges) #TODO
         self.scrapChanges_PB.clicked.connect(self.EditSelectedRecipe)
         self.editRecipe_PB.clicked.connect(self.EditSelectedRecipe)
@@ -65,7 +65,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             currentUser.recipes[leIndex].fermentables = self.getFerListWidget()
 
 
-            currentUser.SaveUser()
+            currentUser.SaveUser2()
             #print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
             #print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
             pprint.pprint(currentUser.recipes[0])
@@ -238,14 +238,14 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
     def CreateNewRecipe(self):
         defaultRecipe = rf.RecepieFactory.createEmptyRecipe()
         currentUser.addRecipe(defaultRecipe)
-        #rf.RecepieFactory.SaveUser(currentUser)/currentUser.SaveUser()
+        currentUser.SaveUser2()
         self.PopulateRecipeTree()
 
     def RemoveRecipe(self):
         selected = self.getSelectedIndex()
         if selected >= 0:
             currentUser.removeRecipe(self.getSelectedIndex()+1)
-            #rf.RecepieFactory.SaveUser(currentUser) #kan inte populera trädet efteråt, currentRecipe.title etc är dict.
+            currentUser.SaveUser2()
             self.PopulateRecipeTree()
         else:
             QtWidgets.QMessageBox.about(self, 'Couldn\'t remove recipe', 'Select a recipe to remove!')
