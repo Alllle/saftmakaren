@@ -331,61 +331,6 @@
             <string>Amount</string>
            </property>
           </widget>
-          <widget class="QTreeWidget" name="mineralsTree">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>140</y>
-             <width>161</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <column>
-            <property name="text">
-             <string>Minerals</string>
-            </property>
-           </column>
-           <item>
-            <property name="text">
-             <string>Calcium  Chloride</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Chalk</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Epsom Salt</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Gypsum</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Magnesium Chloride</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Baking Soda</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Citric Acid</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Lactic Acid</string>
-            </property>
-           </item>
-          </widget>
           <widget class="QLabel" name="label_18">
            <property name="geometry">
             <rect>
@@ -572,6 +517,56 @@
              <height>121</height>
             </rect>
            </property>
+          </widget>
+          <widget class="QComboBox" name="minerals_CB">
+           <property name="geometry">
+            <rect>
+             <x>100</x>
+             <y>140</y>
+             <width>141</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>Calcium Chloride</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Chalk</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Epsom Salt</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Gypsum</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Magnesium Chloride</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Baking Soda</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Citric acid</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Lactic acid</string>
+            </property>
+           </item>
           </widget>
          </widget>
          <widget class="QGroupBox" name="groupBox_7">

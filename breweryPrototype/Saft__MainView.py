@@ -24,8 +24,30 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.hopAdd_PB.clicked.connect(self.AddHop) #TODO
         self.ferRemove_PB.clicked.connect(self.RemoveFermentation)
         self.hopRemove_PB.clicked.connect(self.RemoveHop)
+        self.mineralsAdd_PB.clicked.connect(self.AddMineral)
 
 
+    def AddMineral(self):
+        currentRecipeIndex = self.getSelectedIndex()
+        mineralAmount = float(self.waterAmount_LE.text())
+        index = self.minerals_CB.currentIndex() #börjar på 0
+        if index == 0:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.calciumChloride = mineralAmount
+        if index == 1:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.chalk = mineralAmount
+        if index == 2:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.epsomSalt = mineralAmount
+        if index == 3:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.gypsum = mineralAmount
+        if index == 4:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.magnesiumChloride = mineralAmount
+        if index == 5:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.bakingSoda = mineralAmount
+        if index == 6:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.citricAcid = mineralAmount
+        if index == 7:
+            currentUser.recipes[currentRecipeIndex].waterChem.minerals.lacticAcid = mineralAmount
+        self.PopulateMineralsList(currentUser.recipes[currentRecipeIndex])
         #tror det är en omväg atm...
     def getSelectedIndex(self):
         selectedItem = self.RecipesTree.currentItem()
