@@ -122,7 +122,7 @@ class Recipe:
             for fer in self.fermentables:
                 mcu = mcu + (((fer.kg * 0.00220462262) * fer.lovibond) / (self.batchSize * 0.264172052))
             srm = 1.4922 * (mcu ** 0.6859)
-            return srm
+            return round(srm, 2)
         else:
             return 'Insert Batchsize'
 
