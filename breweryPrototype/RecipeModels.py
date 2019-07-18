@@ -111,10 +111,20 @@ class Recipe:
             tempIBU += addedAA * hopObj.GetAAUtil(hopObj.boilTime, hopObj.OriginalWurt)
         return tempIBU
 
+    #funkar den? använt: http://www.highwoodsbrewing.com/srm-color.php
     @property 
     def SRM(self):
         #TODO return SRM calculated
-        pass
+        #for each fermentable: mcu = mcu + (lb(gram * 0.00220462262) * lovibond / batchsize(in gallons, liters * 0.264172052))
+        #srm = 1.4922 * (mcu ^0.6859)
+        if self.batchSize != 0:
+            mcu = 0
+            for fer in self.fermentables:
+                mcu = mcu + (((fer.kg * 0.00220462262) * fer.lovibond) / (self.batchSize * 0.264172052))
+            srm = 1.4922 * (mcu ** 0.6859)
+            return srm
+        else:
+            return 'Insert Batchsize'
 
     @property 
     def MashPh(self):

@@ -15,7 +15,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         self.username_LB.setText(currentUser.name)
         self.PopulateRecipeTree()
         #self.RecipesTree.itemSelectionChanged.connect(self.EditSelectedRecipe) #funkar itne då man tar bort ett recept, den letar då efter selected index som ej finns
-        self.save_Recipe_PB.clicked.connect(self.SaveRecipeChanges) #TODO
+        self.save_Recipe_PB.clicked.connect(self.SaveRecipeChanges)
         self.scrapChanges_PB.clicked.connect(self.EditSelectedRecipe)
         self.editRecipe_PB.clicked.connect(self.EditSelectedRecipe)
         self.removeRecipe_PB.clicked.connect(self.RemoveRecipe)
@@ -29,6 +29,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
 
     def AddMineral(self):
         currentRecipeIndex = self.getSelectedIndex()
+        #ska man köra med try för att kontrolera input
         mineralAmount = float(self.waterAmount_LE.text())
         index = self.minerals_CB.currentIndex() #börjar på 0
         if index == 0:
@@ -173,7 +174,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
         #self.fg_LB.setText('Final Gravity: {}'.format(str(currentRecipe.fg)))
         #self.abv_LB.setText('ABV: {}'.format(str(currentRecipe.ABV)))
         #self.ibu_LB.setText('IBU: {}'.format(str(currentRecipe.IBU)))
-        #self.srm_LB.setText('SRM: {}'.format(str(currentRecipe.SRM)))
+        self.srm_LB.setText('SRM: {}'.format(str(currentRecipe.SRM)))
         #self.mashPh_LB.setText('Mash Ph: {}'.format(str(currentRecipe.MashPh)))
         self.PopulateHopsList(currentRecipe.hops)
         self.PopulateFermentationList(currentRecipe.fermentables)
