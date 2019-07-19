@@ -89,6 +89,7 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
 
 
             currentUser.SaveUser2()
+            self.PopulateRecipeData(currentUser.recipes[leIndex])
             #print(type(currentUser)) #returnar RecipeModels.User om SaveUser inte är outcommented
             #print(type(currentUser.recipes[0])) #returnar dict om SaveUser inte är outcommented
             pprint.pprint(currentUser.recipes[0])
@@ -237,8 +238,9 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             print(type(ferAmount))
             if ferAmount == '':
                 ferAmount = 0.0
-            elif type(ferAmount) != float or type(ferAmount) != int: #om man har input int eller float funkar det inte....(den är en string, måste man ha try, except 
-                #för att göra om det till en float?)
+            try:
+                ferAmount = float(ferAmount)
+            except ValueError:
                 QtWidgets.QMessageBox.about(self, 'Invalid input', 'Amount has to be a number')
                 return
             ferName = self.ferName_LE.text()
@@ -247,10 +249,12 @@ class SaftApp(Saftmakaren.Ui_MainWindow, QtWidgets.QMainWindow):
             lovibond = self.lovibond_LE.text()
             if lovibond == '':
                 lovibond = 0.0
-            elif type(lovibond) != float or type(lovibond) != int:
+            try:
+                lovibond = float(lovibond)
+            except ValueError:
                 QtWidgets.QMessageBox.about(self, 'Invalid input', 'Lovibond has to be a number')
                 return
-            itemToAdd = '{}kg {} {}AA'.format(float(ferAmount),ferName,float(lovibond))
+            itemToAdd = '{}kg {} {}AA'.format(ferAmount,ferName,lovibond)
             self.ferListWidget.addItem(itemToAdd)
         else:
             QtWidgets.QMessageBox.about(self, 'Couldn\'t add fermentation', 'Select a recipe first')

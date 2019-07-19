@@ -111,7 +111,7 @@ class Recipe:
             tempIBU += addedAA * hopObj.GetAAUtil(hopObj.boilTime, hopObj.OriginalWurt)
         return tempIBU
 
-    #funkar den? använt: http://www.highwoodsbrewing.com/srm-color.php
+    #fuckar när man adderar eller tar bort en fermentable och sparar? använt: http://www.highwoodsbrewing.com/srm-color.php
     @property 
     def SRM(self):
         #TODO return SRM calculated
