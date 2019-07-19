@@ -115,12 +115,12 @@ class Recipe:
     @property 
     def SRM(self):
         #TODO return SRM calculated
-        #for each fermentable: mcu = mcu + (lb(gram * 0.00220462262) * lovibond / batchsize(in gallons, liters * 0.264172052))
+        #for each fermentable: mcu = mcu + (lb(kgram * 0.00220462262) * lovibond / batchsize(in gallons, liters * 0.264172052))
         #srm = 1.4922 * (mcu ^0.6859)
         if self.batchSize != 0:
             mcu = 0
             for fer in self.fermentables:
-                mcu = mcu + (((fer.kg * 0.00220462262) * fer.lovibond) / (self.batchSize * 0.264172052))
+                mcu = mcu + (((fer.kg * 2.20462262) * fer.lovibond) / (self.batchSize * 0.264172052))
             srm = 1.4922 * (mcu ** 0.6859)
             return round(srm, 2)
         else:
